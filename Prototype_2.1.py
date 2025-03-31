@@ -18,8 +18,10 @@ button_x, button_y, button_w, button_h = 100, 100, 150, 50
 POSE_COLOR = (0, 255, 0)
 HAND_COLOR = (255, 0, 0)
 FACE_COLOR = (0, 0, 255)
+button_1 = Button("Test knop",100, 100, 150, 50, (0, 255, 0), (0, 200, 0), lambda: os.system("start chrome.exe"))
+button_2 = Button("Elon Musk banaan", 1000 ,100, 225, 50, (0, 255, 0), (0, 200, 0), lambda: os.system("start chrome.exe https://www.youtube.com/watch?v=-VfYjPzj1Xw"))
 
-with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=0.5) as holistic,
+with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=0.5) as holistic, \
      mp_hands.Hands(min_detection_confidence=0.7, min_tracking_confidence=0.7) as hands:
 
     while cap.isOpened():
@@ -28,8 +30,6 @@ with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=
             break
 
         frame = cv2.flip(frame, 1)
-        button_1 = Button(frame, "Test knop",100, 100, 150, 50, (0, 255, 0), (0, 200, 0), lambda: os.system("start chrome.exe"))
-        button_2 = Button(frame, "Elon Musk banaan", 1000 ,100, 225, 50, (0, 255, 0), (0, 200, 0), lambda: os.system("start chrome.exe https://www.youtube.com/watch?v=-VfYjPzj1Xw"))
         #cv2.rectangle(frame, (1100, 0), (1800, 1080), (0, 0, 0), -1)
         h, w, _ = frame.shape
 
@@ -38,8 +38,8 @@ with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=
         result = holistic.process(rgb_frame)
         hand_results = hands.process(rgb_frame)
 
-        button_1.draw()
-        button_2.draw()
+        button_1.draw(frame)
+        button_2.draw(frame)
 
         if result.pose_landmarks:
             mp_drawing.draw_landmarks(frame, result.pose_landmarks, mp_holistic.POSE_CONNECTIONS,
@@ -63,7 +63,6 @@ with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=
 
         button_1.check_hover(hand_results, h, w)
         button_2.check_hover(hand_results, h, w)
-                    
 
         cv2.imshow('Pose & Handtracking met Knop Interactie', frame)
 
