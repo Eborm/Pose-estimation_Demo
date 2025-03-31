@@ -22,7 +22,6 @@ class Button:
 
     def check_hover(self, hand_results, h, w):
         if self.cooldowneneabled:
-            print(time.time() - self.cooldownstarttime > self.cooldowntime)
             if time.time() - self.cooldownstarttime > self.cooldowntime:
                     self.cooldowneneabled = False
         if hand_results.multi_hand_landmarks and self.cooldowneneabled == False:
