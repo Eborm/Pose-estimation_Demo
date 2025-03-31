@@ -34,7 +34,6 @@ class Button:
                 for lm in hand_landmarks.landmark:
                     cx, cy = int(lm.x * w), int(lm.y * h)
                     if self.x < cx < self.x + self.width and self.y < cy < self.y + self.height:
-                        print("Knop ingedrukt! Venster openen...")
                         if self.action != None and self.cooldown_hover_enabled == True:
                             self.cooldown_start_time = time.time()
                             self.cooldown_eneabled = True
@@ -48,7 +47,8 @@ class Button:
                             elif time.time() - self.cooldown_hover_start_time > self.cooldown_hover:
                                 self.cooldown_hover_enabled = True
                                 self.cooldown_hover_start_time = None
-
+        if self.color == self.standard_color:
+            self.cooldown_hover_start_time = None
 
 class Text:
     def __init__(self, frame, text, x, y, color):
