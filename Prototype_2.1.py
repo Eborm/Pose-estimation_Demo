@@ -19,7 +19,7 @@ POSE_COLOR = (0, 255, 0)
 HAND_COLOR = (255, 0, 0)
 FACE_COLOR = (0, 0, 255)
 
-with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=0.5) as holistic, \
+with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=0.5) as holistic,
      mp_hands.Hands(min_detection_confidence=0.7, min_tracking_confidence=0.7) as hands:
 
     while cap.isOpened():
