@@ -3,7 +3,7 @@ import mediapipe as mp
 import os
 import time
 import threading
-from Classes import Button
+from Button import Button
 
 mp_drawing = mp.solutions.drawing_utils
 mp_holistic = mp.solutions.holistic
@@ -18,8 +18,8 @@ button_x, button_y, button_w, button_h = 100, 100, 150, 50
 POSE_COLOR = (0, 255, 0)
 HAND_COLOR = (255, 0, 0)
 FACE_COLOR = (0, 0, 255)
-button_1 = Button("Test knop",100, 100, 150, 50, (0, 255, 0), (0, 200, 0), lambda: os.system("start chrome.exe"))
-button_2 = Button("Elon Musk banaan", 1000 ,100, 225, 50, (0, 255, 0), (0, 200, 0), lambda: os.system("start chrome.exe https://www.youtube.com/watch?v=-VfYjPzj1Xw"))
+button_1 = Button("Test knop", (255, 255, 255), 100, 100, 150, 50, (0, 0, 0), (75, 75, 75), lambda: os.system("start chrome.exe"))
+button_2 = Button("Elon Musk banaan", (255, 255, 255), 1000 ,100, 225, 50, (0, 0, 0), (75, 75, 75), lambda: os.system("start chrome.exe https://www.youtube.com/watch?v=-VfYjPzj1Xw"))
 
 with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=0.5) as holistic, \
      mp_hands.Hands(min_detection_confidence=0.7, min_tracking_confidence=0.7) as hands:
