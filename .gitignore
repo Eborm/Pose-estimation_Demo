@@ -57,6 +57,9 @@ x64/
 *.pidb
 *.scc
 
+#python files
+__pycache__/
+
 # Visual C++ cache files
 ipch/
 *.aps
