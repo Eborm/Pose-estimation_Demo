@@ -13,10 +13,7 @@ cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
 cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1920)
 cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)
 
-
-
 button_x, button_y, button_w, button_h = 100, 100, 150, 50
-
 
 POSE_COLOR = (0, 255, 0)
 HAND_COLOR = (255, 0, 0)
