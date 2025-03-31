@@ -25,6 +25,7 @@ class Button:
         cv2.putText(frame, self.text, (self.x + 10, self.y + 30), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 0), 2)
 
     def check_hover(self, hand_results, h, w):
+        self.color = self.standard_color
         if self.cooldown_eneabled:
             if time.time() - self.cooldown_start_time > self.cooldown_time:
                     self.cooldown_eneabled = False
