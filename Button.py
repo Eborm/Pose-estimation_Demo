@@ -4,6 +4,7 @@ import time
 class Button:
     def __init__(self, text, text_color, x, y, width, height, color, hover_color, action=None, cooldown_time=2, cooldown_hover=3):
         self.text = text
+        self.text_color = text_color
         self.x = x
         self.y = y
         self.width = width
@@ -15,12 +16,12 @@ class Button:
         self.cooldown_time = cooldown_time
         self.cooldown_enabled = False
         self.cooldown_start_time = None
-        self.cooldown_hover = cooldown_hover
         self.cooldown_hover_enabled = False
         self.cooldown_hover_start_time = None
-        self.text_color = text_color
+
         self.not_hover  = 6.0
         self.not_hover_start_time = None
+        self.cooldown_hover = cooldown_hover
 
         # berekenen van verschil tussen standaard kleur en hover kleur en increment van de kleuren per 0.1 seconde
         b_standard, g_standard, r_standard = self.standard_color

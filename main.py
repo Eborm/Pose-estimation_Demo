@@ -3,7 +3,7 @@ import mediapipe as mp
 import os
 import time
 import threading
-from Button import Button
+from Button_v2 import Button
 from Text import Text
 
 mp_drawing = mp.solutions.drawing_utils
@@ -94,8 +94,8 @@ with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=
                                       mp_drawing.DrawingSpec(color=FACE_COLOR, thickness=1, circle_radius=1),
                                       mp_drawing.DrawingSpec(color=(255, 255, 255), thickness=1, circle_radius=1))
 
-        button_1.check_hover(hand_results, h, w)
-        #button_2.check_hover(hand_results, h, w)
+        button_1.button_handler(hand_results, h, w)
+        #button_2.button_handler(hand_results, h, w)
 
         cv2.imshow('Pose & Handtracking met Knop Interactie', frame)
 
