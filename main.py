@@ -16,16 +16,12 @@ cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)
 cv2.namedWindow("Pose & Handtracking met Knop Interactie", cv2.WND_PROP_FULLSCREEN)
 cv2.setWindowProperty("Pose & Handtracking met Knop Interactie", cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
 
-
-button_x, button_y, button_w, button_h = 100, 100, 150, 50
-
 POSE_COLOR = (0, 255, 0)
 HAND_COLOR = (255, 0, 0)
 FACE_COLOR = (0, 0, 255)
-button_1 = Button("Test knop", (255, 255, 255), 100, 100, 150, 50, (0, 0, 0), (75, 75, 75), lambda: os.system("start chrome.exe"))
-button_2 = Button("Website", (255, 255, 255), 1000 ,100, 225, 50, (0, 0, 0), (75, 75, 75), lambda: os.system("start chrome.exe https://chat.daan.engineer/"))
+button_1 = Button("Test knop", (255, 255, 255), 100, 100, 150, 50, (0, 0, 0), (0, 0, 255), lambda: os.system("start chrome.exe"))
+button_2 = Button("Website", (255, 255, 255), 1000 ,100, 225, 50, (0, 0, 0), (0, 0, 255), lambda: os.system("start chrome.exe https://chat.daan.engineer/"))
 text_1  = Text("Dit is een test tekst. Dit is een test tekst. Dit is een test tekst", (0, 0, 0), 1500, 460)
-
 
 def teken():
     #ui design
@@ -39,6 +35,22 @@ def teken():
     text_1.draw(frame)
 
 
+start_time = time.time()
+fps_count = 0
+fps_count_temp = 0
+
+def fps():
+    global start_time
+    global fps_count
+    global fps_count_temp
+    if time.time() - start_time < 1:
+        fps_count_temp += 1
+    elif time.time() - start_time > 1:
+        start_time = time.time()
+        fps_count = fps_count_temp
+        fps_count_temp = 0
+
+    cv2.putText(frame, f'FPS: {fps_count}', (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2)
 
 with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=0.5) as holistic, \
      mp_hands.Hands(min_detection_confidence=0.7, min_tracking_confidence=0.7) as hands:
@@ -57,6 +69,7 @@ with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=
         hand_results = hands.process(rgb_frame)
 
         button_1.draw(frame)
+        fps()
 
         tekenthread = threading.Thread(target = teken)
         tekenthread.start()

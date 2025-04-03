@@ -19,6 +19,8 @@ class Button:
         self.cooldown_hover_enabled = False
         self.cooldown_hover_start_time = None
         self.text_color = text_color
+        self.not_hover  = 6.0
+        self.not_hover_start_time = None
 
         # berekenen van verschil tussen standaard kleur en hover kleur en increment van de kleuren per 0.1 seconde
         b_standard, g_standard, r_standard = self.standard_color
@@ -36,8 +38,6 @@ class Button:
         cv2.putText(frame, self.text, (self.x + 10, self.y + 30), cv2.FONT_HERSHEY_SIMPLEX, 0.7, self.text_color, 2)
 
     def check_hover(self, hand_results, h, w):
-        self.color = self.standard_color
-
         if self.cooldown_enabled:
             if time.time() - self.cooldown_start_time > self.cooldown_time:
                 self.cooldown_enabled = False
@@ -59,9 +59,15 @@ class Button:
                             elif time.time() - self.cooldown_hover_start_time > self.cooldown_hover:
                                 self.cooldown_hover_enabled = True
                                 self.cooldown_hover_start_time = None
-
-        if self.color == self.standard_color:
-            self.cooldown_hover_start_time = None
+                    else:
+                        if self.not_hover_start_time == None:
+                            self.not_hover_start_time = time.time()
+                        else:
+                            if time.time() - self.not_hover_start_time > self.not_hover:
+                                self.not_hover_start_time = None
+                                self.cooldown_hover_start_time = None
+                                self.cooldown_hover_enabled = False
+                                self.color = self.standard_color
 
     def animate_color(self):
         if self.cooldown_hover_start_time is not None:
