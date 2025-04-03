@@ -67,7 +67,7 @@ class Button:
         if self.cooldown_hover_start_time is not None:
             elapsed_time = time.time() - self.cooldown_hover_start_time
             if elapsed_time == 0:
-                elapsed_time = 0.01
+                elapsed_time = 0.1
             new_b = max(0, min(255, int(self.standard_color[0] + self.b_inc * elapsed_time)))
             new_g = max(0, min(255, int(self.standard_color[1] + self.g_inc * elapsed_time)))
             new_r = max(0, min(255, int(self.standard_color[2] + self.r_inc * elapsed_time)))

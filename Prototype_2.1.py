@@ -4,7 +4,6 @@ import os
 import time
 import threading
 from Button import Button
-from Text import Text
 
 mp_drawing = mp.solutions.drawing_utils
 mp_holistic = mp.solutions.holistic
@@ -20,9 +19,7 @@ POSE_COLOR = (0, 255, 0)
 HAND_COLOR = (255, 0, 0)
 FACE_COLOR = (0, 0, 255)
 button_1 = Button("Test knop", (255, 255, 255), 100, 100, 150, 50, (0, 0, 0), (75, 75, 75), lambda: os.system("start chrome.exe"))
-button_2 = Button("Website", (255, 255, 255), 1000 ,100, 225, 50, (0, 0, 0), (75, 75, 75), lambda: os.system("start chrome.exe https://chat.daan.engineer/"))
-text_1  = Text("Dit is een test tekst, Dit is een test tekst, Dit is een test tekst", (255, 255, 255), 100, 200)
-
+button_2 = Button("Elon Musk banaan", (255, 255, 255), 1000 ,100, 225, 50, (0, 0, 0), (75, 75, 75), lambda: os.system("start chrome.exe https://www.youtube.com/watch?v=-VfYjPzj1Xw"))
 
 with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=0.5) as holistic, \
      mp_hands.Hands(min_detection_confidence=0.7, min_tracking_confidence=0.7) as hands:
@@ -41,10 +38,8 @@ with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=
         result = holistic.process(rgb_frame)
         hand_results = hands.process(rgb_frame)
 
-        text_1.animation()
         button_1.draw(frame)
         button_2.draw(frame)
-        text_1.draw(frame)
 
         if result.pose_landmarks:
             mp_drawing.draw_landmarks(frame, result.pose_landmarks, mp_holistic.POSE_CONNECTIONS,
