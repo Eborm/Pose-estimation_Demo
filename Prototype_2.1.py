@@ -23,7 +23,6 @@ button_1 = Button("Test knop", (255, 255, 255), 100, 100, 150, 50, (0, 0, 0), (7
 button_2 = Button("Website", (255, 255, 255), 1000 ,100, 225, 50, (0, 0, 0), (75, 75, 75), lambda: os.system("start chrome.exe https://chat.daan.engineer/"))
 text_1  = Text("Dit is een test tekst, Dit is een test tekst, Dit is een test tekst", (255, 255, 255), 100, 200)
 
-
 with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=0.5) as holistic, \
      mp_hands.Hands(min_detection_confidence=0.7, min_tracking_confidence=0.7) as hands:
 
