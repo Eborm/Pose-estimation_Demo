@@ -38,7 +38,7 @@ mp_drawing = mp.solutions.drawing_utils
 mp_holistic = mp.solutions.holistic
 mp_hands = mp.solutions.hands
 
-cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
+cap = cv2.VideoCapture(0,)
 cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1920)
 cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)
 
@@ -65,7 +65,7 @@ button_1 = Button(
     BUTTON_SIZE,
     BUTTON_COLOR,
     BUTTON_HOVER_COLOR, 
-    lambda: os.system("start chrome.exe")
+    lambda: os.system("open -a 'Google Chrome' https://bitcoinen.me")
 )
 
 button_2 = Button(
@@ -75,7 +75,7 @@ button_2 = Button(
     BUTTON_SIZE,
     BUTTON_COLOR,
     BUTTON_HOVER_COLOR, 
-    lambda: os.system("start chrome.exe https://chat.daan.engineer/")
+    lambda: os.system('open -a "Google Chrome" https://chat.daan.engineer/')
 )
 
 text_1 = Text(
