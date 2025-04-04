@@ -77,7 +77,9 @@ BUTTON_COLOR = ColorBGR(0, 0, 0)
 BUTTON_HOVER_COLOR = ColorBGR(0, 0, 255)
 BUTTON_1_POS = Vector2(100, 100)
 BUTTON_2_POS = Vector2(1000, 100)
-BUTTON_SIZE = Vector2(225, 50)
+BUTTON_3_POS = Vector2(100, 500)
+BUTTON_4_POS = Vector2(1000, 500)
+BUTTON_SIZE = Vector2(200, 50)
 TEXT_1_POS = Vector2(1500, 460)
 
 active_level = 0
@@ -87,7 +89,7 @@ texts = []
 images = []
 
 button_1 = Button(
-    "Test knop",
+    "pose-estimation",
     BUTTON_TEXT_COLOR,
     BUTTON_1_POS,
     BUTTON_SIZE,
@@ -97,13 +99,33 @@ button_1 = Button(
 )
 
 button_2 = Button(
-    "Website",
+    "sport",
     BUTTON_TEXT_COLOR,
     BUTTON_2_POS,
     BUTTON_SIZE,
     BUTTON_COLOR,
     BUTTON_HOVER_COLOR, 
     lambda: change_active_level(2)
+)
+
+button_3 = Button(
+    "gaming",
+    BUTTON_TEXT_COLOR,
+    BUTTON_3_POS,
+    BUTTON_SIZE,
+    BUTTON_COLOR,
+    BUTTON_HOVER_COLOR, 
+    lambda: change_active_level(3)
+)
+
+button_4 = Button(
+    "medicijn",
+    BUTTON_TEXT_COLOR,
+    BUTTON_4_POS,
+    BUTTON_SIZE,
+    BUTTON_COLOR,
+    BUTTON_HOVER_COLOR, 
+    lambda: change_active_level(4)
 )
 
 text_1 = Text(
@@ -115,10 +137,12 @@ image_0 = image("../assets/zuyd_logo.png", Vector2(1500,20), Vector2(400, 400))
 image_1 = image("../assets/pose-estimation.png", Vector2(1500,20), Vector2(400, 400))
 image_2 = image("../assets/sport-application.png", Vector2(1500,20), Vector2(400, 400))
 image_3 = image("../assets/game-application.png" , Vector2(1500,20), Vector2(400, 400))
-image_4 = image("../assets/healt-application.png", Vector2(1500,20), Vector2(400, 400))
+image_4 = image("../assets/health-application.png", Vector2(1500,20), Vector2(400, 400))
 
 buttons.append(button_1)
 buttons.append(button_2)
+buttons.append(button_3)
+buttons.append(button_4)
 texts.append(text_1)
 texts.append(text_1)
 texts.append(text_1)
@@ -171,6 +195,8 @@ with mp_holistic.Holistic(static_image_mode=False, model_complexity=0,min_detect
 
         button_1.button_handler(hand_results, h, w)
         button_2.button_handler(hand_results, h, w)
+        button_3.button_handler(hand_results, h, w)
+        button_4.button_handler(hand_results, h, w)
 
         cv2.imshow('Pose Estimator', frame)
         frame_counter += 1

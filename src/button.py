@@ -31,10 +31,12 @@ class Button:
         self.b_inc = (b_targ - b_stand) / self.hover_cooldown_length if (b_targ - b_stand) != 0 else 0
         self.g_inc = (g_targ - g_stand) / self.hover_cooldown_length if (g_targ - g_stand) != 0 else 0
         self.r_inc = (r_targ - r_stand) / self.hover_cooldown_length if (r_targ - r_stand) != 0 else 0
+        (self.text_width, self.text_height), _= cv2.getTextSize(self.text, cv2.FONT_HERSHEY_SIMPLEX, 0.7,  1)
+
 
     def draw(self, frame):
         draw_rectangle(frame, self.pos, self.size, self.color, -1)
-        draw_text(frame, self.text, Vector2(self.pos.x + 10, self.pos.y + 30), self.text_color, 2)
+        draw_text(frame, self.text, Vector2(self.pos.x + (self.size.x - int(self.text_width)) // 2, self.pos.y + (self.size.y + int(self.text_height)) // 2), self.text_color, 2)
 
     def hover_time_handler(self):
         if self.hover_start_time == None:
