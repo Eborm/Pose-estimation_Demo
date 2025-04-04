@@ -10,6 +10,7 @@ from cv2_interface import draw_rectangle, draw_text
 from image import image
 
 start_time = time.time()
+active_level = 0
 last_time = 1.0
 fps_dict = {"time_stamp": "fps"}
 
@@ -35,8 +36,8 @@ def draw_fps():
     cv2.putText(frame, f'FPS: {int(fps_display)}', (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2)
 
 def change_active_level(level):
-    texts[active_level].start_time = None]
     global active_level
+    texts[active_level].start_time = None
     active_level = level
 
 def draw(frame, texts, buttons):
@@ -83,7 +84,6 @@ BUTTON_4_POS = Vector2(1000, 500)
 BUTTON_SIZE = Vector2(200, 50)
 TEXT_1_POS = Vector2(1500, 460)
 
-active_level = 0
 
 buttons = []
 texts = []
