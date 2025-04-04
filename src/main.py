@@ -130,11 +130,6 @@ with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=
                                       mp_drawing.DrawingSpec(color=HAND_COLOR.to_tuple(), thickness=2, circle_radius=3),
                                       mp_drawing.DrawingSpec(color=(255, 255, 255), thickness=2, circle_radius=2))
 
-        if result.face_landmarks:
-            mp_drawing.draw_landmarks(frame, result.face_landmarks, mp_holistic.FACEMESH_TESSELATION,
-                                      mp_drawing.DrawingSpec(color=FACE_COLOR.to_tuple(), thickness=1, circle_radius=1),
-                                      mp_drawing.DrawingSpec(color=(255, 255, 255), thickness=1, circle_radius=1))
-
         draw(frame, texts, buttons)
 
         button_1.button_handler(hand_results, h, w)
