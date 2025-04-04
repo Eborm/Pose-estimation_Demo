@@ -35,8 +35,8 @@ def draw_fps():
     cv2.putText(frame, f'FPS: {int(fps_display)}', (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2)
 
 def change_active_level(level):
-    texts[active_level].start_time = None]
     global active_level
+    texts[active_level].start_time = None
     active_level = level
 
 def draw(frame, texts, buttons):
