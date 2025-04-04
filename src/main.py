@@ -6,6 +6,7 @@ from button import Button
 from text import Text
 from color import ColorBGR
 from vector2 import Vector2
+from cv2_interface import draw_rectangle, draw_text
 
 start_time = time.time()
 
@@ -17,12 +18,30 @@ def draw_fps():
 
 
 def draw(frame, texts, buttons):
-    #ui design
-    cv2.rectangle(frame, (1480, 0), (1920, 1080), (52, 27, 237), -1)
-    #img
-    cv2.rectangle(frame, (1500, 20), (1900, 420), (255, 255, 255), -1)
-    #txt
-    cv2.rectangle(frame, (1500, 440), (1900, 1060), (255, 255, 255), -1)   
+    # Right panel
+    draw_rectangle(
+        frame,
+        Vector2(1480, 0),
+        Vector2(1920, 1080),
+        ColorBGR(52, 27, 237),
+        -1
+    )
+    # Image panel (top right)
+    draw_rectangle(
+        frame,
+        Vector2(1500, 20),
+        Vector2(1900, 420),
+        ColorBGR(255, 255, 255),
+        -1
+    )
+    # Explanation panel (bottom right)
+    draw_rectangle(
+        frame,
+        Vector2(1500, 440),
+        Vector2(1900, 1060),
+        ColorBGR(255, 255, 255),
+        -1
+    )
 
     for text in texts:
         text.animation()
