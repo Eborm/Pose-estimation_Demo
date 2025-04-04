@@ -9,6 +9,7 @@
 
 .venv
 src/main.spec
+main.spec
 
 # User-specific files
 *.suo
