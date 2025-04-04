@@ -7,6 +7,7 @@ from text import Text
 from color import ColorBGR
 from vector2 import Vector2
 from cv2_interface import draw_rectangle, draw_text
+from image import image
 
 start_time = time.time()
 
@@ -16,6 +17,9 @@ def draw_fps():
     start_time = cv2.getTickCount()
     cv2.putText(frame, f'FPS: {int(fps)}', (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2)
 
+def change_active_level(level):
+    global active_level
+    active_level = level
 
 def draw(frame, texts, buttons):
     # Right panel
@@ -31,6 +35,8 @@ def draw(frame, texts, buttons):
 
     for button in buttons:
         button.draw(frame)
+
+    images[active_level].draw(frame)
 
     draw_fps()
 
@@ -58,8 +64,11 @@ BUTTON_2_POS = Vector2(1000, 100)
 BUTTON_SIZE = Vector2(225, 50)
 TEXT_1_POS = Vector2(1500, 460)
 
+active_level = 0
+
 buttons = []
 texts = []
+images = []
 
 button_1 = Button(
     "Test knop",
@@ -68,7 +77,7 @@ button_1 = Button(
     BUTTON_SIZE,
     BUTTON_COLOR,
     BUTTON_HOVER_COLOR, 
-    lambda: os.system("start chrome.exe")
+    lambda: change_active_level(1)
 )
 
 button_2 = Button(
@@ -78,7 +87,7 @@ button_2 = Button(
     BUTTON_SIZE,
     BUTTON_COLOR,
     BUTTON_HOVER_COLOR, 
-    lambda: os.system("start chrome.exe https://chat.daan.engineer/")
+    lambda: change_active_level(2)
 )
 
 text_1 = Text(
@@ -87,9 +96,15 @@ text_1 = Text(
     TEXT_1_POS
 )
 
+image_1 = image("../assets/pose-estimation.png", Vector2(1500,20), Vector2(400, 400))
+image_2 = image("../assets/sport-application.png", Vector2(1500,20), Vector2(400, 400))
+
 buttons.append(button_1)
 buttons.append(button_2)
 texts.append(text_1)
+images.append(image("", Vector2(0,0), Vector2(0,400)))
+images.append(image_1)
+images.append(image_2)
 
 frame_skip = 2
 frame_counter = 0
