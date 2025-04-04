@@ -18,7 +18,7 @@ class Button:
 		self.hover_enabled = False
 		self.hover_start_time = None
 
-		self.not_hovering = 6.0
+		self.not_hovering = 3
 		self.not_hovering_start_time = None
 
 		b_stand, g_stand, r_stand = self.color
@@ -34,6 +34,7 @@ class Button:
 	def hover_time_handler(self):
 		if self.hover_start_time == None:
 			self.hover_start_time = time.time()
+			self.not_hovering_start_time = None
 		elif time.time() - self.hover_start_time > self.hover_cooldown_lenght:
 			self.hover_enabled = True
 			self.hover_start_time = None
