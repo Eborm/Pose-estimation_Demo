@@ -7,14 +7,6 @@ from Text import Text
 from Color import ColorBGR
 from Color import ColorBGR
 from Vector2 import Vector2
-    
-class Vector2:
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
-
-    def to_tuple(self):
-        return (self.x, self.y)
 
 start_time = time.time()
 fps_count = 0
@@ -58,6 +50,9 @@ mp_hands = mp.solutions.hands
 cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
 cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1920)
 cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)
+cv2.namedWindow("Pose Estimator", cv2.WND_PROP_FULLSCREEN)
+cv2.setWindowProperty("Pose Estimator", cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
+
 
 POSE_COLOR = ColorBGR(0, 255, 0)
 HAND_COLOR = ColorBGR(255, 0, 0)
@@ -92,7 +87,7 @@ button_2 = Button(
     BUTTON_SIZE,
     BUTTON_COLOR,
     BUTTON_HOVER_COLOR, 
-    lambda: os.system("start chrome.exe")
+    lambda: os.system("start chrome.exe https://chat.daan.engineer/")
 )
 
 text_1 = Text(
