@@ -26,7 +26,7 @@ class Text:
                 line.pop(0)
             line = "".join(line)
 
-            draw_text(frame, line, Vector2(self.pos.x - 5, (self.pos.y - 20) + y_offset), self.text_color, 2)
+            draw_text(frame, line, Vector2(self.pos.x, self.pos.y + y_offset), self.text_color, 2)
             y_offset += 30
 
     def animation(self):

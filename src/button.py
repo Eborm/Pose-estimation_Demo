@@ -34,7 +34,7 @@ class Button:
 
     def draw(self, frame):
         draw_rectangle(frame, self.pos, self.size, self.color, -1)
-        draw_text(frame, self.text, self.pos, self.text_color, 2)
+        draw_text(frame, self.text, Vector2(self.pos.x + 10, self.pos.y + 30), self.text_color, 2)
 
     def hover_time_handler(self):
         if self.hover_start_time == None:
