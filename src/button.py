@@ -1,5 +1,6 @@
 import time
 import cv2
+from cv2_interface import draw_rectangle, draw_text
 from color import ColorBGR
 from vector2 import Vector2
 
@@ -32,8 +33,8 @@ class Button:
         self.r_inc = (r_targ - r_stand) / self.hover_cooldown_length if (r_targ - r_stand) != 0 else 0
 
     def draw(self, frame):
-        cv2.rectangle(frame, self.pos.to_tuple(), (self.pos.x + self.size.x, self.pos.y + self.size.y), self.color.to_tuple(), -1)
-        cv2.putText(frame, self.text, (self.pos.x + 10, self.pos.y + 30), cv2.FONT_HERSHEY_SIMPLEX, 0.7, self.text_color.to_tuple(), 2)
+        draw_rectangle(frame, self.pos, self.size, self.color, -1)
+        draw_text(frame, self.text, self.pos, self.text_color, 2)
 
     def hover_time_handler(self):
         if self.hover_start_time == None:

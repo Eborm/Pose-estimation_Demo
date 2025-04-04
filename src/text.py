@@ -2,6 +2,7 @@ import time
 import cv2
 from color import ColorBGR
 from vector2 import Vector2
+from cv2_interface import draw_text
 
 class Text:
     def __init__(self, text, text_color, pos, animation_duration=3):
@@ -25,7 +26,7 @@ class Text:
                 line.pop(0)
             line = "".join(line)
 
-            cv2.putText(frame, line, (self.pos.x, self.pos.y + y_offset), cv2.FONT_HERSHEY_SIMPLEX, 0.7, self.text_color.to_tuple(), 2)
+            draw_text(frame, line, Vector2(self.pos.x - 5, (self.pos.y - 20) + y_offset), self.text_color, 2)
             y_offset += 30
 
     def animation(self):
