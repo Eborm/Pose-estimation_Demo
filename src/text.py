@@ -1,7 +1,7 @@
 import time
 import cv2
-from Color import ColorBGR
-from Vector2 import Vector2
+from color import ColorBGR
+from vector2 import Vector2
 
 class Text:
     def __init__(self, text, text_color, pos, animation_duration=3):
