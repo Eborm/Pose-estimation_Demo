@@ -8,22 +8,13 @@ from color import ColorBGR
 from vector2 import Vector2
 
 start_time = time.time()
-fps_count = 0
-fps_count_temp = 0
 
 def draw_fps():
     global start_time
-    global fps_count
-    global fps_count_temp
+    fps = cv2.getTickFrequency() / (cv2.getTickCount() - start_time)
+    start_time = cv2.getTickCount()
+    cv2.putText(frame, f'FPS: {int(fps)}', (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2)
 
-    if time.time() - start_time < 1:
-        fps_count_temp += 1
-    elif time.time() - start_time > 1:
-        start_time = time.time()
-        fps_count = fps_count_temp
-        fps_count_temp = 0
-
-    cv2.putText(frame, f'FPS: {fps_count}', (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2)
 
 def draw(frame, texts, buttons):
     #ui design
