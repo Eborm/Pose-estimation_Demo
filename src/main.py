@@ -99,7 +99,10 @@ buttons.append(button_1)
 buttons.append(button_2)
 texts.append(text_1)
 
-with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=0.5) as holistic, \
+frame_skip = 2
+frame_counter = 0
+
+with mp_holistic.Holistic(static_image_mode=False, model_complexity=0,min_detection_confidence=0.5, min_tracking_confidence=0.5) as holistic, \
      mp_hands.Hands(min_detection_confidence=0.7, min_tracking_confidence=0.7) as hands:
     
     while cap.isOpened():
@@ -109,11 +112,11 @@ with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=
 
         frame = cv2.flip(frame, 1)
         h, w, _ = frame.shape
+        if frame_counter % frame_skip == 0:
+            rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
-        rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-
-        result = holistic.process(rgb_frame)
-        hand_results = hands.process(rgb_frame)
+            result = holistic.process(rgb_frame)
+            hand_results = hands.process(rgb_frame)
 
         if result.pose_landmarks:
             mp_drawing.draw_landmarks(frame, result.pose_landmarks, mp_holistic.POSE_CONNECTIONS,
@@ -136,7 +139,7 @@ with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=
         button_2.button_handler(hand_results, h, w)
 
         cv2.imshow('Pose Estimator', frame)
-
+        frame_counter += 1
         if cv2.waitKey(10) & 0xFF == ord('q'):
             break
 
