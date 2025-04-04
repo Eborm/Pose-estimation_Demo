@@ -18,7 +18,7 @@ class Button:
 		self.hover_enabled = False
 		self.hover_start_time = None
 
-		self.not_hovering = 3
+		self.not_hovering = 3.4
 		self.not_hovering_start_time = None
 
 		b_stand, g_stand, r_stand = self.color
