@@ -10,12 +10,29 @@ from cv2_interface import draw_rectangle, draw_text
 from image import image
 
 start_time = time.time()
+last_time = 1.0
+fps_dict = {"time_stamp": "fps"}
 
 def draw_fps():
+    to_remove = []
+    global fps_old
     global start_time
-    fps = cv2.getTickFrequency() / (cv2.getTickCount() - start_time)
-    start_time = cv2.getTickCount()
-    cv2.putText(frame, f'FPS: {int(fps)}', (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2)
+    global last_time
+    fps = 1.0 / (start_time - last_time)
+    fps_dict[time.time()] = fps
+    fps_display = 0
+    for fps_time in fps_dict:
+        if fps_time != "time_stamp":
+            if fps_time < time.time() - 1:
+                to_remove.append(fps_time)
+            else:
+                fps_display += fps_dict[fps_time]
+    for fps_time_remove in to_remove:
+        fps_dict.pop(fps_time_remove)
+    fps_display /= len(fps_dict) - 1
+    last_time = start_time
+    start_time = time.time()
+    cv2.putText(frame, f'FPS: {int(fps_display)}', (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2)
 
 def change_active_level(level):
     global active_level
@@ -29,10 +46,9 @@ def draw(frame, texts, buttons):
     # Explanation panel (bottom right)
     cv2.rectangle(frame, (1500, 440), (1900, 1060), (255, 255, 255), -1)   
 
-    for text in texts:
-        text.animation()
-        text.draw(frame)
-
+    texts[active_level].animation()
+    texts[active_level].draw(frame)
+    
     for button in buttons:
         button.draw(frame)
 
@@ -95,16 +111,24 @@ text_1 = Text(
     TEXT_COLOR,
     TEXT_1_POS
 )
-
+image_0 = image("../assets/zuyd_logo.png", Vector2(1500,20), Vector2(400, 400))
 image_1 = image("../assets/pose-estimation.png", Vector2(1500,20), Vector2(400, 400))
 image_2 = image("../assets/sport-application.png", Vector2(1500,20), Vector2(400, 400))
+image_3 = image("../assets/game-application.png" , Vector2(1500,20), Vector2(400, 400))
+image_4 = image("../assets/healt-application.png", Vector2(1500,20), Vector2(400, 400))
 
 buttons.append(button_1)
 buttons.append(button_2)
 texts.append(text_1)
-images.append(image("", Vector2(0,0), Vector2(0,400)))
+texts.append(text_1)
+texts.append(text_1)
+texts.append(text_1)
+texts.append(text_1)
+images.append(image_0)
 images.append(image_1)
 images.append(image_2)
+images.append(image_3)
+images.append(image_4)
 
 frame_skip = 2
 frame_counter = 0
