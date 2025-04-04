@@ -2,11 +2,10 @@ import cv2
 import mediapipe as mp
 import os
 import time
-from Button import Button
-from Text import Text
-from Color import ColorBGR
-from Color import ColorBGR
-from Vector2 import Vector2
+from button import Button
+from text import Text
+from color import ColorBGR
+from vector2 import Vector2
 
 start_time = time.time()
 fps_count = 0
