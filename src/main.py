@@ -112,6 +112,7 @@ with mp_holistic.Holistic(static_image_mode=False, model_complexity=0,min_detect
 
         frame = cv2.flip(frame, 1)
         h, w, _ = frame.shape
+        frame = cv2.resize(frame, (1920, 1080))
         frame_small = cv2.resize(frame, (w//2, h//2))
         if frame_counter % frame_skip == 0:
             rgb_frame = cv2.cvtColor(frame_small, cv2.COLOR_BGR2RGB)
