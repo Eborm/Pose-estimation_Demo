@@ -8,13 +8,18 @@ from color import ColorBGR
 from vector2 import Vector2
 from cv2_interface import draw_rectangle, draw_text
 from image import image
-
-
+import threading
+import queue
 
 start_time = time.time()
 active_level = 0
 last_time = 1.0
 fps_dict = {"time_stamp": "fps"}
+
+frame_queue = queue.Queue(maxsize=1)
+
+hand_results = None
+result = None
 
 def draw_fps(frame):
     to_remove = []
@@ -60,6 +65,16 @@ def draw(frame, texts, buttons):
 
     draw_fps(frame)
 
+def process_frame(frame_queue, frame_counter, frame_skip, holistic, hands):
+    while True:
+        global result
+        global hand_results
+        if not frame_queue.empty():
+            frame = frame_queue.get()
+            rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            result = holistic.process(rgb_frame)
+            hand_results = hands.process(rgb_frame)
+            
 mp_drawing = mp.solutions.drawing_utils
 mp_holistic = mp.solutions.holistic
 mp_hands = mp.solutions.hands
@@ -166,58 +181,55 @@ frame_skip = 2
 frame_counter = 0
 
 with mp_holistic.Holistic(static_image_mode=False, model_complexity=0,min_detection_confidence=0.5, min_tracking_confidence=0.5) as holistic, \
-     mp_hands.Hands(min_detection_confidence=0.7, min_tracking_confidence=0.7) as hands:
+    mp_hands.Hands(min_detection_confidence=0.7, min_tracking_confidence=0.7) as hands:
     
+    mediapipe_thread = threading.Thread(target=process_frame, args=(frame_queue, frame_counter, frame_skip, holistic, hands))
+    mediapipe_thread.start()
     while cap.isOpened():
         ret, frame = cap.read()
         if not ret:
             break
-
         frame = cv2.flip(frame, 1)
         h, w, _ = frame.shape
         frame = cv2.resize(frame, (1920, 1080))
         button_h_detect, button_w_detect = 1920, 1080
         frame_small = cv2.resize(frame, (w//2, h//2))
-        if frame_counter % frame_skip == 0:
-            rgb_frame = cv2.cvtColor(frame_small, cv2.COLOR_BGR2RGB)
-
-            result = holistic.process(rgb_frame)
-            hand_results = hands.process(rgb_frame)
-
-        if result.pose_landmarks:
-            mp_drawing.draw_landmarks(
-                frame,
-                result.pose_landmarks,
-                mp_holistic.POSE_CONNECTIONS,
-                pose_spec,
-                white_spec
-            )
-
-        if result.left_hand_landmarks:
-            mp_drawing.draw_landmarks(
-                frame,
-                result.left_hand_landmarks,
-                mp_holistic.HAND_CONNECTIONS,
-                hand_spec,
-                white_spec
-            )
-
-        if result.right_hand_landmarks:
-            mp_drawing.draw_landmarks(
-                frame,
-                result.right_hand_landmarks,
-                mp_holistic.HAND_CONNECTIONS,
-                hand_spec,
-                white_spec
-            )
-
+        if frame_queue.empty():
+            frame_queue.put(frame_small)
 
         draw(frame, texts, buttons)
+        if hand_results != None:
+            if result.pose_landmarks:
+                mp_drawing.draw_landmarks(
+                    frame,
+                    result.pose_landmarks,
+                    mp_holistic.POSE_CONNECTIONS,
+                    pose_spec,
+                    white_spec
+                )
 
-        button_1.button_handler(hand_results, h, w)
-        button_2.button_handler(hand_results, h, w)
-        button_3.button_handler(hand_results, h, w)
-        button_4.button_handler(hand_results, h, w)
+            if result.left_hand_landmarks:
+                mp_drawing.draw_landmarks(
+                    frame,
+                    result.left_hand_landmarks,
+                    mp_holistic.HAND_CONNECTIONS,
+                    hand_spec,
+                    white_spec
+                )
+
+            if result.right_hand_landmarks:
+                mp_drawing.draw_landmarks(
+                    frame,
+                    result.right_hand_landmarks,
+                    mp_holistic.HAND_CONNECTIONS,
+                    hand_spec,
+                    white_spec
+                )
+
+            button_1.button_handler(hand_results, h, w)
+            button_2.button_handler(hand_results, h, w)
+            button_3.button_handler(hand_results, h, w)
+            button_4.button_handler(hand_results, h, w)
 
         cv2.imshow('Pose Estimator', frame)
         frame_counter += 1
