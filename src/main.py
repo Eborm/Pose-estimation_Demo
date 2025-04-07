@@ -9,12 +9,14 @@ from vector2 import Vector2
 from cv2_interface import draw_rectangle, draw_text
 from image import image
 
+
+
 start_time = time.time()
 active_level = 0
 last_time = 1.0
 fps_dict = {"time_stamp": "fps"}
 
-def draw_fps():
+def draw_fps(frame):
     to_remove = []
     global fps_old
     global start_time
@@ -56,7 +58,7 @@ def draw(frame, texts, buttons):
 
     images[active_level].draw(frame)
 
-    draw_fps()
+    draw_fps(frame)
 
 mp_drawing = mp.solutions.drawing_utils
 mp_holistic = mp.solutions.holistic
@@ -155,6 +157,11 @@ images.append(image_2)
 images.append(image_3)
 images.append(image_4)
 
+pose_spec = mp_drawing.DrawingSpec(color=POSE_COLOR.to_tuple(), thickness=2, circle_radius=3)
+hand_spec = mp_drawing.DrawingSpec(color=HAND_COLOR.to_tuple(), thickness=2, circle_radius=3)
+face_spec = mp_drawing.DrawingSpec(color=FACE_COLOR.to_tuple(), thickness=2, circle_radius=3)
+white_spec = mp_drawing.DrawingSpec(color=(255, 255, 255), thickness=2, circle_radius=2)
+
 frame_skip = 2
 frame_counter = 0
 
@@ -178,19 +185,32 @@ with mp_holistic.Holistic(static_image_mode=False, model_complexity=0,min_detect
             hand_results = hands.process(rgb_frame)
 
         if result.pose_landmarks:
-            mp_drawing.draw_landmarks(frame, result.pose_landmarks, mp_holistic.POSE_CONNECTIONS,
-                                      mp_drawing.DrawingSpec(color=POSE_COLOR.to_tuple(), thickness=2, circle_radius=3),
-                                      mp_drawing.DrawingSpec(color=(255, 255, 255), thickness=2, circle_radius=2))
+            mp_drawing.draw_landmarks(
+                frame,
+                result.pose_landmarks,
+                mp_holistic.POSE_CONNECTIONS,
+                pose_spec,
+                white_spec
+            )
 
         if result.left_hand_landmarks:
-            mp_drawing.draw_landmarks(frame, result.left_hand_landmarks, mp_holistic.HAND_CONNECTIONS,
-                                      mp_drawing.DrawingSpec(color=HAND_COLOR.to_tuple(), thickness=2, circle_radius=3),
-                                      mp_drawing.DrawingSpec(color=(255, 255, 255), thickness=2, circle_radius=2))
+            mp_drawing.draw_landmarks(
+                frame,
+                result.left_hand_landmarks,
+                mp_holistic.HAND_CONNECTIONS,
+                hand_spec,
+                white_spec
+            )
 
         if result.right_hand_landmarks:
-            mp_drawing.draw_landmarks(frame, result.right_hand_landmarks, mp_holistic.HAND_CONNECTIONS,
-                                      mp_drawing.DrawingSpec(color=HAND_COLOR.to_tuple(), thickness=2, circle_radius=3),
-                                      mp_drawing.DrawingSpec(color=(255, 255, 255), thickness=2, circle_radius=2))
+            mp_drawing.draw_landmarks(
+                frame,
+                result.right_hand_landmarks,
+                mp_holistic.HAND_CONNECTIONS,
+                hand_spec,
+                white_spec
+            )
+
 
         draw(frame, texts, buttons)
 

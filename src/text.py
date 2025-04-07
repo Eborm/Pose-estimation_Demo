@@ -3,6 +3,7 @@ import cv2
 from color import ColorBGR
 from vector2 import Vector2
 from cv2_interface import draw_text
+import textwrap
 
 class Text:
     def __init__(self, text, text_color, pos, animation_duration=3):
@@ -14,20 +15,12 @@ class Text:
         self.start_time = None
         self.animated_text = ""
 
-        for i in range(0, len(self.seperated_text)):
-            if i % 37 == 0 and i != 0:
-                self.seperated_text.insert(i, "\n")
+        self.seperated_text = list("\n".join(textwrap.wrap(text, 37)))
 
     def draw(self, frame):
-        y_offset = 0
-        for line in self.animated_text.split("\n"):
-            line = list(line)
-            if len(line) > 1 and line[0] == " ":
-                line.pop(0)
-            line = "".join(line)
+        for i, line in enumerate(self.animated_text.split("\n")):
+            draw_text(frame, line.strip(), Vector2(self.pos.x, self.pos.y + i * 30), self.text_color, 2)
 
-            draw_text(frame, line, Vector2(self.pos.x, self.pos.y + y_offset), self.text_color, 2)
-            y_offset += 30
 
     def animation(self):
         if self.start_time is None:

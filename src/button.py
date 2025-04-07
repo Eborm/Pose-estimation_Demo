@@ -77,14 +77,18 @@ class Button:
         self.color = ColorBGR(new_b, new_g, new_r)
     
     def button_handler(self, hand_results, h, w):
-        if (self.cooldown_enabled) and \
-           (time.time() - self.cooldown_start_time > self.cooldown_length):
-            self.cooldown_enabled = False
+        hovering = False
+        if self.cooldown_enabled:
+            if (time.time() - self.cooldown_start_time > self.cooldown_length):
+                self.cooldown_enabled = False
+            else:
+                return
         elif hand_results.multi_hand_landmarks and self.action != None:
             for hand_landmarks in hand_results.multi_hand_landmarks:
                 for lm in hand_landmarks.landmark:
                     cx, cy = int(lm.x * w), int(lm.y * h)
                     if self.pos.x < cx < (self.pos.x + self.size.x) and self.pos.y < cy < (self.pos.y + self.size.y):
+                        hovering = True
                         if self.hover_enabled:
                             self.button_cooldown_handler()
                         elif not self.hover_enabled:
@@ -92,3 +96,5 @@ class Button:
                             self.hover_time_handler()
                     else:
                         self.not_hovering_handler()
+        if not hovering:
+            self.not_hovering_handler()
