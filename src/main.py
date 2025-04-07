@@ -64,11 +64,9 @@ mp_drawing = mp.solutions.drawing_utils
 mp_holistic = mp.solutions.holistic
 mp_hands = mp.solutions.hands
 
-cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
+cap = cv2.VideoCapture(0)
 cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1920)
 cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)
-cv2.namedWindow("Pose Estimator", cv2.WND_PROP_FULLSCREEN)
-cv2.setWindowProperty("Pose Estimator", cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
 
 
 POSE_COLOR = ColorBGR(0, 255, 0)
@@ -132,10 +130,49 @@ button_4 = Button(
 )
 
 text_1 = Text(
-    "Dit is een tekst. Dit is een tekst. Dit is een tekst",
+    "Welkom bij de Pose Estimation Demonstrator. Voor informatie over de vakgebieden. " \
+    "Beweeg je hand naar een van de 4 vakjes en houd vast totdat het vakje volledig rood is.",
     TEXT_COLOR,
     TEXT_1_POS
 )
+
+text_2 = Text(
+    "Pose estimation is een techniek waarmee automatisch de houding van een persoon wordt herkend aan de hand van camerabeelden." \
+    " Hierbij worden belangrijke punten op het lichaam, zoals de schouders, knieën en heupen, opgespoord." \
+    " Op basis van deze punten kan de beweging of houding van een persoon in kaart worden gebracht.",
+    TEXT_COLOR,
+    TEXT_1_POS
+)
+
+text_3 = Text(
+    "Pose estimation speelt een steeds grotere rol binnen de sportwereld." \
+    " Door middel van camerabeelden en slimme software kunnen lichaamsbewegingen automatisch herkend en geanalyseerd worden." \
+    " Dit maakt het mogelijk om de houding en techniek van een sporter nauwkeurig te volgen, zonder dat hiervoor speciale sensoren nodig zijn.",
+    TEXT_COLOR,
+    TEXT_1_POS
+)
+
+text_4 = Text(
+    "Pose estimation wordt ook in de gamewereld steeds vaker toegepast." \
+    " Met deze technologie kunnen games bestuurd worden door lichaamsbewegingen in plaats van met een controller of toetsenbord." \
+    " De camera herkent automatisch de houding en beweging van de speler en vertaalt dit naar acties in het spel." \
+    " Games die deze technologie zijn bijvoorbeeld 'Just Dance' en 'Kinect Sport'",
+    TEXT_COLOR,
+    TEXT_1_POS
+)
+
+text_5 = Text(
+    "In de medische wereld biedt pose estimation waardevolle mogelijkheden voor het analyseren van beweging en lichaamshouding." \
+    " Deze technologie kan worden ingezet bij diagnose, revalidatie en het monitoren van de voortgang van patiënten," \
+    " zonder dat er dure of invasieve apparatuur nodig is." \
+    " Een specifiek voorbeeld is het gebruik van pose estimation bij juveniele dermatomyositis (JDM)," \
+    " een zeldzame auto-immuunziekte bij kinderen die spierzwakte veroorzaakt." \
+    " Bij JDM is het belangrijk om de spierfunctie goed te volgen, met name bij bewegingen zoals opstaan," \
+    " hurken of het optillen van de armen.",
+    TEXT_COLOR,
+    TEXT_1_POS
+)
+
 image_0 = image("../assets/zuyd_logo.png", Vector2(1500,20), Vector2(400, 400))
 image_1 = image("../assets/pose-estimation.png", Vector2(1500,20), Vector2(400, 400))
 image_2 = image("../assets/sport-application.png", Vector2(1500,20), Vector2(400, 400))
@@ -147,10 +184,10 @@ buttons.append(button_2)
 buttons.append(button_3)
 buttons.append(button_4)
 texts.append(text_1)
-texts.append(text_1)
-texts.append(text_1)
-texts.append(text_1)
-texts.append(text_1)
+texts.append(text_2)
+texts.append(text_3)
+texts.append(text_4)
+texts.append(text_5)
 images.append(image_0)
 images.append(image_1)
 images.append(image_2)
