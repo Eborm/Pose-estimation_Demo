@@ -18,13 +18,24 @@ frame_queue = queue.Queue(maxsize=1)
 
 hand_results = None
 result = None
+dark_mode = False
 
 def change_active_level(level):
     global active_level
     texts[active_level].start_time = None
     active_level = level
 
+def dark_mode_handler():
+    global dark_mode
+    if dark_mode:
+        dark_mode = False
+    else:
+        dark_mode = True
+
 def draw(frame, texts, buttons):
+    global dark_mode    
+    if dark_mode:
+      cv2.rectangle(frame, (0, 0), (1920, 1080), (0, 0, 0), -1)  
     # Right panel
     cv2.rectangle(frame, (1480, 0), (1920, 1080), (52, 27, 237), -1)
     # Image panel (top right)
@@ -78,6 +89,8 @@ BUTTON_1_POS = Vector2(100, 100)
 BUTTON_2_POS = Vector2(1000, 100)
 BUTTON_3_POS = Vector2(100, 500)
 BUTTON_4_POS = Vector2(1000, 500)
+BUTTON_5_POS = Vector2(100, 900)
+BUTTON_6_POS = Vector2(1000, 900)
 BUTTON_SIZE = Vector2(200, 50)
 TEXT_1_POS = Vector2(1500, 460)
 
@@ -117,13 +130,31 @@ button_3 = Button(
 )
 
 button_4 = Button(
-    "medicijn",
+    "medisch",
     BUTTON_TEXT_COLOR,
     BUTTON_4_POS,
     BUTTON_SIZE,
     BUTTON_COLOR,
     BUTTON_HOVER_COLOR, 
     lambda: change_active_level(4)
+)
+button_5 = Button(
+    "terug",
+    BUTTON_TEXT_COLOR,
+    BUTTON_5_POS,
+    BUTTON_SIZE,
+    BUTTON_COLOR,
+    BUTTON_HOVER_COLOR,
+    lambda: change_active_level(0)
+)
+button_6 = Button(
+    "DARKMODE",
+    BUTTON_TEXT_COLOR,
+    BUTTON_6_POS,
+    BUTTON_SIZE,
+    BUTTON_COLOR,
+    BUTTON_HOVER_COLOR,
+    lambda: dark_mode_handler()
 )
 
 text_1 = Text(
@@ -141,6 +172,8 @@ buttons.append(button_1)
 buttons.append(button_2)
 buttons.append(button_3)
 buttons.append(button_4)
+buttons.append(button_5)
+buttons.append(button_6)
 texts.append(text_1)
 texts.append(text_1)
 texts.append(text_1)
@@ -213,6 +246,8 @@ with mp_holistic.Holistic(static_image_mode=False, model_complexity=0,min_detect
             button_2.button_handler(hand_results, h, w)
             button_3.button_handler(hand_results, h, w)
             button_4.button_handler(hand_results, h, w)
+            button_5.button_handler(hand_results, h, w)
+            button_6.button_handler(hand_results, h, w)
 
         cv2.imshow('Pose Estimator', frame)
         frame_counter += 1
