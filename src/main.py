@@ -10,37 +10,14 @@ from cv2_interface import draw_rectangle, draw_text
 from image import image
 import threading
 import queue
+from fps import fps_counter
 
-start_time = time.time()
 active_level = 0
-last_time = 1.0
-fps_dict = {"time_stamp": "fps"}
 
 frame_queue = queue.Queue(maxsize=1)
 
 hand_results = None
 result = None
-
-def draw_fps(frame):
-    to_remove = []
-    global fps_old
-    global start_time
-    global last_time
-    fps = 1.0 / (start_time - last_time)
-    fps_dict[time.time()] = fps
-    fps_display = 0
-    for fps_time in fps_dict:
-        if fps_time != "time_stamp":
-            if fps_time < time.time() - 1:
-                to_remove.append(fps_time)
-            else:
-                fps_display += fps_dict[fps_time]
-    for fps_time_remove in to_remove:
-        fps_dict.pop(fps_time_remove)
-    fps_display /= len(fps_dict) - 1
-    last_time = start_time
-    start_time = time.time()
-    cv2.putText(frame, f'FPS: {int(fps_display)}', (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2)
 
 def change_active_level(level):
     global active_level
@@ -63,9 +40,11 @@ def draw(frame, texts, buttons):
 
     images[active_level].draw(frame)
 
-    draw_fps(frame)
+    fps_counter_fps.draw_fps(frame)
+    fps_counter_mediapip.draw_fps(frame, " MEDIAPIPE")
 
-def process_frame(frame_queue, frame_counter, frame_skip, holistic, hands):
+
+def process_frame(frame_queue, holistic, hands, fps_counter):
     while True:
         global result
         global hand_results
@@ -74,6 +53,7 @@ def process_frame(frame_queue, frame_counter, frame_skip, holistic, hands):
             rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
             result = holistic.process(rgb_frame)
             hand_results = hands.process(rgb_frame)
+            fps_counter.calculate_fps()
             
 mp_drawing = mp.solutions.drawing_utils
 mp_holistic = mp.solutions.holistic
@@ -182,8 +162,9 @@ frame_counter = 0
 
 with mp_holistic.Holistic(static_image_mode=False, model_complexity=0,min_detection_confidence=0.5, min_tracking_confidence=0.5) as holistic, \
     mp_hands.Hands(min_detection_confidence=0.7, min_tracking_confidence=0.7) as hands:
-    
-    mediapipe_thread = threading.Thread(target=process_frame, args=(frame_queue, frame_counter, frame_skip, holistic, hands))
+    fps_counter_fps = fps_counter()
+    fps_counter_mediapip = fps_counter(30)
+    mediapipe_thread = threading.Thread(target=process_frame, args=(frame_queue, holistic, hands, fps_counter_mediapip))
     mediapipe_thread.start()
     while cap.isOpened():
         ret, frame = cap.read()
@@ -196,6 +177,8 @@ with mp_holistic.Holistic(static_image_mode=False, model_complexity=0,min_detect
         frame_small = cv2.resize(frame, (w//2, h//2))
         if frame_queue.empty():
             frame_queue.put(frame_small)
+
+        fps_counter_fps.calculate_fps()
 
         draw(frame, texts, buttons)
         if hand_results != None:
