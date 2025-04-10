@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 import cv2
 import mediapipe as mp
 import os
@@ -87,12 +85,12 @@ BUTTON_TEXT_COLOR = ColorBGR(255, 255, 255)
 TEXT_COLOR = ColorBGR(0, 0, 0)
 BUTTON_COLOR = ColorBGR(0, 0, 0)
 BUTTON_HOVER_COLOR = ColorBGR(0, 0, 255)
-BUTTON_1_POS = Vector2(100, 100)
-BUTTON_2_POS = Vector2(1000, 100)
-BUTTON_3_POS = Vector2(100, 500)
-BUTTON_4_POS = Vector2(1000, 500)
-BUTTON_5_POS = Vector2(100, 900)
-BUTTON_6_POS = Vector2(1000, 900)
+BUTTON_1_POS = Vector2(70, 100)
+BUTTON_2_POS = Vector2(1210, 100)
+BUTTON_3_POS = Vector2(70, 500)
+BUTTON_4_POS = Vector2(1210, 500)
+BUTTON_5_POS = Vector2(70, 900)
+BUTTON_6_POS = Vector2(1210, 900)
 BUTTON_SIZE = Vector2(200, 50)
 TEXT_1_POS = Vector2(1500, 460)
 
@@ -102,7 +100,7 @@ texts = []
 images = []
 
 button_1 = Button(
-    "pose-estimation",
+    "Pose-Estimation",
     BUTTON_TEXT_COLOR,
     BUTTON_1_POS,
     BUTTON_SIZE,
@@ -112,7 +110,7 @@ button_1 = Button(
 )
 
 button_2 = Button(
-    "sport",
+    "Sport",
     BUTTON_TEXT_COLOR,
     BUTTON_2_POS,
     BUTTON_SIZE,
@@ -122,7 +120,7 @@ button_2 = Button(
 )
 
 button_3 = Button(
-    "gaming",
+    "Gaming",
     BUTTON_TEXT_COLOR,
     BUTTON_3_POS,
     BUTTON_SIZE,
@@ -132,7 +130,7 @@ button_3 = Button(
 )
 
 button_4 = Button(
-    "medisch",
+    "Medisch",
     BUTTON_TEXT_COLOR,
     BUTTON_4_POS,
     BUTTON_SIZE,
@@ -141,7 +139,7 @@ button_4 = Button(
     lambda: change_active_level(4)
 )
 button_5 = Button(
-    "terug",
+    "Terug",
     BUTTON_TEXT_COLOR,
     BUTTON_5_POS,
     BUTTON_SIZE,
@@ -162,7 +160,7 @@ button_6 = Button(
 
 text_1 = Text(
     "Welkom bij de Pose Estimation Demonstrator. Voor informatie over de vakgebieden. " \
-    "Beweeg je hand naar een van de 4 vakjes en houd vast totdat het vakje volledig rood is.",
+    "Beweeg je hand naar een van de 6 vakjes en houd vast totdat het vakje volledig rood is.",
     TEXT_COLOR,
     TEXT_1_POS
 )
@@ -184,7 +182,7 @@ text_4 = Text(
     "Pose estimation wordt ook in de gamewereld steeds vaker toegepast." \
     " Met deze technologie kunnen games bestuurd worden door lichaamsbewegingen in plaats van met een controller of toetsenbord." \
     " De camera herkent automatisch de houding en beweging van de speler en vertaalt dit naar acties in het spel." \
-    " Games die deze technologie zijn bijvoorbeeld 'Just Dance' en 'Kinect Sport'",
+    " Games die deze technologie zijn bijvoorbeeld 'Just Dance' en 'Kinect Sport'.",
     TEXT_COLOR,
     TEXT_1_POS
 )
