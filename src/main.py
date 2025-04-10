@@ -226,9 +226,6 @@ hand_spec = mp_drawing.DrawingSpec(color=HAND_COLOR.to_tuple(), thickness=2, cir
 face_spec = mp_drawing.DrawingSpec(color=FACE_COLOR.to_tuple(), thickness=2, circle_radius=3)
 white_spec = mp_drawing.DrawingSpec(color=(255, 255, 255), thickness=2, circle_radius=2)
 
-frame_skip = 2
-frame_counter = 0
-
 with mp_holistic.Holistic(static_image_mode=False, model_complexity=0,min_detection_confidence=0.5, min_tracking_confidence=0.5) as holistic, \
     mp_hands.Hands(min_detection_confidence=0.7, min_tracking_confidence=0.7) as hands:
     fps_counter_fps = fps_counter()
