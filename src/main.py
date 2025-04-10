@@ -150,13 +150,14 @@ button_5 = Button(
     lambda: change_active_level(0)
 )
 button_6 = Button(
-    "DARKMODE",
+    "lampen uit",
     BUTTON_TEXT_COLOR,
     BUTTON_6_POS,
     BUTTON_SIZE,
     BUTTON_COLOR,
     BUTTON_HOVER_COLOR,
-    lambda: dark_mode_handler()
+    lambda: dark_mode_handler(),
+    "lampen aan"
 )
 
 text_1 = Text(

@@ -5,8 +5,10 @@ from color import ColorBGR
 from vector2 import Vector2
 
 class Button:
-    def __init__(self, text, text_color, pos, size, color, hover_color, action=None):
+    def __init__(self, text, text_color, pos, size, color, hover_color, action=None, text2=None):
         self.text = text # String
+        self.text2 = text2
+        self.display_text = text
         self.text_color = text_color # ColorBGR
         self.pos = pos # Vector2
         self.size = size # Vector2
@@ -36,7 +38,7 @@ class Button:
 
     def draw(self, frame):
         draw_rectangle(frame, self.pos, self.size, self.color, -1)
-        draw_text(frame, self.text, Vector2(self.pos.x + (self.size.x - int(self.text_width)) // 2, self.pos.y + (self.size.y + int(self.text_height)) // 2), self.text_color, 2)
+        draw_text(frame, self.display_text, Vector2(self.pos.x + (self.size.x - int(self.text_width)) // 2, self.pos.y + (self.size.y + int(self.text_height)) // 2), self.text_color, 2)
 
     def hover_time_handler(self):
         if self.hover_start_time == None:
@@ -91,6 +93,10 @@ class Button:
                         hovering = True
                         if self.hover_enabled:
                             self.button_cooldown_handler()
+                            if self.display_text == self.text and self.text2 != None:
+                                self.display_text = self.text2
+                            else:
+                                self.display_text = self.text
                         elif not self.hover_enabled:
                             self.animate_color()
                             self.hover_time_handler()
