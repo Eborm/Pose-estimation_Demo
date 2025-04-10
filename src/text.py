@@ -15,7 +15,7 @@ class Text:
         self.start_time = None
         self.animated_text = ""
 
-        self.seperated_text = list("\n".join(textwrap.wrap(text, 37)))
+        self.seperated_text = list("\n".join(textwrap.wrap(text, 32)))
 
     def draw(self, frame):
         for i, line in enumerate(self.animated_text.split("\n")):
