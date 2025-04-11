@@ -283,7 +283,6 @@ with mp_holistic.Holistic(static_image_mode=False, model_complexity=0,min_detect
             button_6.button_handler(hand_results, h, w)
 
         cv2.imshow('Pose Estimator', frame)
-        frame_counter += 1
         if cv2.waitKey(10) & 0xFF == ord('q'):
             break
 
