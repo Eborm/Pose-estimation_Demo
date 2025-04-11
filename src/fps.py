@@ -11,7 +11,11 @@ class fps_counter:
 
     def calculate_fps(self):
         to_remove = []
-        fps = 1.0 / (self.start_time - self.last_time)
+        time_difference = (self.start_time - self.last_time)
+        if time_difference != 0:
+            fps = 1.0 / time_difference
+        else:
+            fps = 0
         self.fps_dict[time.time()] = fps
         self.fps_display = 0
         for fps_time in list(self.fps_dict.keys()):

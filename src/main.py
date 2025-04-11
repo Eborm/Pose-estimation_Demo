@@ -51,8 +51,8 @@ def draw(frame, texts, buttons):
 
     images[active_level].draw(frame)
 
-    fps_counter_fps.draw_fps(frame)
-    fps_counter_mediapip.draw_fps(frame, " MEDIAPIPE")
+    #fps_counter_fps.draw_fps(frame)
+    #fps_counter_mediapip.draw_fps(frame, " MEDIAPIPE")
 
 
 def process_frame(frame_queue, holistic, hands, fps_counter):
