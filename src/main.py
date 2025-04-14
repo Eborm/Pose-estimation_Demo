@@ -182,7 +182,7 @@ text_4 = Text(
     "Pose estimation wordt ook in de gamewereld steeds vaker toegepast." \
     " Met deze technologie kunnen games bestuurd worden door lichaamsbewegingen in plaats van met een controller of toetsenbord." \
     " De camera herkent automatisch de houding en beweging van de speler en vertaalt dit naar acties in het spel." \
-    " Games die deze technologie zijn bijvoorbeeld 'Just Dance' en 'Kinect Sport'.",
+    " Deze technologie wordt bevoorbeeld gebruikt in VR technologie om je handen te tracken.",
     TEXT_COLOR,
     TEXT_1_POS
 )
