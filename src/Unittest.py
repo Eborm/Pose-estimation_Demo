@@ -224,4 +224,4 @@ class TestFpsCounter(unittest.TestCase):
         self.fps_counter.calculate_fps()
         self.assertAlmostEqual(self.fps_counter.fps_display, 0, delta=1e-5)
 
-unittest.main()
+unittest.main(verbosity=2)
