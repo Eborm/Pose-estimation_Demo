@@ -1,0 +1,74 @@
+@startuml name
+left to right direction
+
+class ColorBGR {
+    - b: int
+    - g: int
+    - r: int
+        + ToTuple()
+}
+
+class Vector2 {
+    - x: int
+    - y: int
+        + ToTuple()
+}
+
+class Button {
+    - text: string
+    - text2: string
+    - display_text: string
+    - text_color: ColorBGR
+    - color: ColorBGR
+    - standard_color: ColorBGR
+    - hover_color: ColorBGR
+    - pos: Vector2
+    - size: Vector2
+    - text_width: int
+    - text_height: int
+    - action: lambda
+    - cooldown_length: int
+    - cooldown_enabled: bool
+    - cooldown_start_time: int
+    - hover_cooldown_length: int
+    - hover_enabled: bool
+    - hover_start_time: int
+    - not_hovering: int
+    - not_hovering_start_time: int
+    - b_inc: int
+    - g_inc: int
+    - r_inc: int
+        + draw(self, frame)
+        + hover_time_handler(self)
+        + not_hovering_handler(self)
+        + button_cooldown_handler(self)
+        + animate_color(self)
+        + button_handler(self, hand_results, h, w)
+}
+
+class Text {
+    - text_color: ColorBGR
+    - pos: Vector2
+    - animated_duration: int
+    - seperated_text: string
+    - seconds_per_word: int
+    - start_time: int
+    - animated_text: string
+        + draw(self, frame)
+        + animation(self)
+}
+
+class Image {
+    - pos: Vector2
+    - size: Vector2
+    - image: MatLike
+        + draw(self, frame)
+}
+
+Button -- Vector2
+Button -- ColorBGR
+Text -- Vector2
+Text -- ColorBGR
+Image -- Vector2
+
+@enduml
