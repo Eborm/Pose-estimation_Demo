@@ -86,7 +86,10 @@ class Button:
         elif hand_results.multi_hand_landmarks and self.action != None:
             for hand_landmarks in hand_results.multi_hand_landmarks:
                 for lm in hand_landmarks.landmark:
-                    cx, cy = int(lm.x * w), int(lm.y * h)
+                    scale_x = 1920 / (w//2)
+                    scale_y = 1080 / (h//2)
+                    cx = int(lm.x * (w//2) * scale_x)
+                    cy = int(lm.y * (h//2) * scale_y)
                     if self.pos.x < cx < (self.pos.x + self.size.x) and self.pos.y < cy < (self.pos.y + self.size.y):
                         hovering = True
                         if self.hover_enabled:
