@@ -160,7 +160,7 @@ button_6 = Button(
 
 text_1 = Text(
     "Welkom bij de Pose Estimation Demonstrator. Voor informatie over de vakgebieden. " \
-    "Beweeg je hand naar een van de 6 vakjes en houd vast totdat het vakje volledig rood is.",
+    "Beweeg de blauwe punten op je hand naar een van de 6 vakjes en houd vast totdat het vakje volledig rood is.",
     TEXT_COLOR,
     TEXT_1_POS
 )
