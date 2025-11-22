@@ -1,3 +1,6 @@
+import tensorflow as tf
+tf.config.threading.set_intra_op_parallelism_threads(8)
+tf.config.threading.set_inter_op_parallelism_threads(8)
 import cv2
 import mediapipe as mp
 import os
@@ -22,6 +25,12 @@ dark_mode = False
 
 def change_active_level(level):
     global active_level
+    global score
+    global text_4
+    if level == 3:
+        score = score+10
+    if level == 0:
+        score = 0
     texts[active_level].start_time = None
     active_level = level
 
@@ -32,7 +41,7 @@ def dark_mode_handler():
     else:
         dark_mode = True
 
-def draw(frame, texts, buttons):
+def draw(frame, texts, images, buttons):
     global dark_mode    
     if dark_mode:
       cv2.rectangle(frame, (0, 0), (1920, 1080), (0, 0, 0), -1)  
@@ -50,8 +59,8 @@ def draw(frame, texts, buttons):
         button.draw(frame)
 
     images[active_level].draw(frame)
-
-    #fps_counter_fps.draw_fps(frame)
+    fps_counter_fps.fps_display = score
+    fps_counter_fps.draw_fps(frame)
     #fps_counter_mediapip.draw_fps(frame, " MEDIAPIPE")
 
 
@@ -158,6 +167,8 @@ button_6 = Button(
     "lampen aan"
 )
 
+
+score :int =0
 text_1 = Text(
     "Welkom bij de Pose Estimation Demonstrator. Voor informatie over de vakgebieden. " \
     "Beweeg de blauwe punten op je hand naar een van de 6 vakjes en houd vast totdat het vakje volledig rood is.",
@@ -174,7 +185,7 @@ text_2 = Text(
 text_3 = Text(
     "Pose estimation speelt een steeds grotere rol binnen de sportwereld." \
     " Door middel van camerabeelden en slimme software kunnen lichaamsbewegingen automatisch herkend en geanalyseerd worden." \
-    " Dit maakt het mogelijk om de houding en techniek van een sporter nauwkeurig te volgen, zonder dat hiervoor speciale sensoren nodig zijn.",
+    f" Dit maakt het mogelijk om de houding en techniek van een sporter nauwkeurig te volgen, zonder dat hiervoor speciale sensoren nodig zijn.",
     TEXT_COLOR,
     TEXT_1_POS
 )
@@ -182,7 +193,7 @@ text_4 = Text(
     "Pose estimation wordt ook in de gamewereld steeds vaker toegepast." \
     " Met deze technologie kunnen games bestuurd worden door lichaamsbewegingen in plaats van met een controller of toetsenbord." \
     " De camera herkent automatisch de houding en beweging van de speler en vertaalt dit naar acties in het spel." \
-    " Deze technologie wordt bevoorbeeld gebruikt in VR technologie om je handen te tracken.",
+    f" Deze technologie wordt bevoorbeeld gebruikt in VR technologie om je handen te tracken. Score: {score}",
     TEXT_COLOR,
     TEXT_1_POS
 )
@@ -198,11 +209,12 @@ text_5 = Text(
     TEXT_1_POS
 )
 
-image_0 = image("../assets/zuyd_logo.png", Vector2(1500,20), Vector2(400, 400))
-image_1 = image("../assets/pose-estimation.png", Vector2(1500,20), Vector2(400, 400))
-image_2 = image("../assets/sport-application.png", Vector2(1500,20), Vector2(400, 400))
-image_3 = image("../assets/game-application.png" , Vector2(1500,20), Vector2(400, 400))
-image_4 = image("../assets/health-application.png", Vector2(1500,20), Vector2(400, 400))
+
+image_0 = image("./assets/zuyd_logo.png", Vector2(1500,20), Vector2(400, 400))
+image_1 = image("./assets/pose-estimation.png", Vector2(1500,20), Vector2(400, 400))
+image_2 = image("./assets/sport-application.png", Vector2(1500,20), Vector2(400, 400))
+image_3 = image("./assets/game-application.png" , Vector2(1500,20), Vector2(400, 400))
+image_4 = image("./assets/health-application.png", Vector2(1500,20), Vector2(400, 400))
 
 buttons.append(button_1)
 buttons.append(button_2)
@@ -246,7 +258,7 @@ with mp_holistic.Holistic(static_image_mode=False, model_complexity=0,min_detect
 
         fps_counter_fps.calculate_fps()
 
-        draw(frame, texts, buttons)
+        draw(frame, texts, images, buttons)
         if hand_results != None:
             if result.pose_landmarks:
                 mp_drawing.draw_landmarks(

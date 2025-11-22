@@ -34,4 +34,4 @@ class fps_counter:
         self.last_time = self.start_time
         self.start_time = time.time()
     def draw_fps(self, frame, extra_text = ""):
-        cv2.putText(frame, f'{extra_text} FPS: {int(self.fps_display)}', (10, 30 + self.offset), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2)
+        cv2.putText(frame, f'{extra_text} Score: {int(self.fps_display)}', (10, 30 + self.offset), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2)
